@@ -12,12 +12,11 @@ $(document).ready(function()
   $(document).keydown(function(e)
   {
     keysDown[e.which] = true;
-    console.log(down);
     // right
     if (keysDown[39] && down)
     {
       console.log("right");
-      console.log(down);
+      // console.log(down);
       down = false;
       int = setInterval(function()
       {
@@ -29,8 +28,8 @@ $(document).ready(function()
     // left
     if (keysDown[37] && down)
     {
-      console.log("right");
-      console.log(down);
+      console.log("left");
+      // console.log(down);
       down = false;
       int = setInterval(function()
       {
@@ -72,35 +71,35 @@ $(document).ready(function()
         {
           clearInterval(downInterval);
           jump = true;
-          console.log(jump);
+          // console.log(jump);
         }, 300);
       }, 300);
     }
 
 
     // jump right
-    if (keysDown[39] && down && keysDown[38] && jump)
-    {
-      console.log("right jump");
-      // down = false;
-      // int = setInterval(function()
-      // {
-        vert -= 1;
-        hor += 1;
-        $("#block").css("marginTop", vert+"px");
-        $("#block").css("marginLeft", hor+"px");
-      // }, 1);
-    }
+    // if (keysDown[39] && down && keysDown[38] && jump)
+    // {
+    //   console.log("right jump");
+    //   // down = false;
+    //   // int = setInterval(function()
+    //   // {
+    //     vert -= 1;
+    //     hor += 1;
+    //     $("#block").css("marginTop", vert+"px");
+    //     $("#block").css("marginLeft", hor+"px");
+    //   // }, 1);
+    // }
   }).keyup(function(e)
   {
-    keysDown[e.which] = false;
     // for (var i = 0; i < intArray.length; i ++)
     // {
     //   clearInterval(intArray[i]);
     // }
     // intArray = [];
     // down = true;
-    if (int)
+    // if (int)
+    if (int && jump)
     {
       console.log("int here");
       clearInterval(int);
@@ -110,5 +109,6 @@ $(document).ready(function()
     {
       console.log("int NOT here");
     }
+    keysDown[e.which] = false;
   });
 });
