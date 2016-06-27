@@ -13,24 +13,14 @@ $(document).ready(function()
   block.css("marginTop", vert+"px");
   $(document).keydown(function(e)
   {
-    if (vert > lowest)
-    {
-      console.log("too low!");
-      vert = lowest;
-    }
     down[e.which] = true;
 
     // right
     if (down[39] && right)
     {
-      console.log("right");
+      // console.log("right");
       right = false;
-      // if (intLeft)
-      // {
-      //   console.log("top clear left");
-      //   clearInterval(intLeft);
-      //   left = true;
-      // }
+      block.css("background-image", "url(images/soldier1.png)");
       intRight = setInterval(function()
       {
         hor += 1;
@@ -41,14 +31,9 @@ $(document).ready(function()
     // left
     if (down[37] && left)
     {
-      console.log("left");
+      // console.log("left");
       left = false;
-      // if (intRight)
-      // {
-      //   console.log("top clear right");
-      //   clearInterval(intRight);
-      //   right = true;
-      // }
+      block.css("background-image", "url(images/soldier2.png)");
       intLeft = setInterval(function()
       {
         hor -= 1;
@@ -59,28 +44,67 @@ $(document).ready(function()
     // jump
     if (down[38] && jump)
     {
-      console.log("jump");
+      // console.log("jump");
       jump = false;
-      var upInterval = setInterval(function()
+      var upInterval1 = setInterval(function()
       {
         vert -= 3;
         block.css("marginTop", vert+"px");
       }, 1);
-      var upTimeout = setTimeout(function()
+      var upTimeout1 = setTimeout(function()
       {
-        clearInterval(upInterval);
-        var downInterval = setInterval(function()
+        clearInterval(upInterval1);
+        var upInterval2 = setInterval(function()
         {
-          vert += 3;
+          vert -= 2;
           block.css("marginTop", vert+"px");
         }, 1);
-        var downTimeout = setTimeout(function()
+        var upTimeout2 = setTimeout(function()
         {
-          clearInterval(downInterval);
-          jump = true;
-          // console.log(jump);
-        }, 300);
-      }, 300);
+          clearInterval(upInterval2);
+          var upInterval3 = setInterval(function()
+          {
+            vert -= 1;
+            block.css("marginTop", vert+"px");
+          }, 1);
+          var upTimeout3 = setTimeout(function()
+          {
+            clearInterval(upInterval3);
+            var downInterval1 = setInterval(function()
+            {
+              vert += 1;
+              block.css("marginTop", vert+"px");
+            }, 1);
+            var downTimeout1 = setTimeout(function()
+            {
+              clearInterval(downInterval1);
+              var downInterval2 = setInterval(function()
+              {
+                vert += 2;
+                block.css("marginTop", vert+"px");
+              }, 1);
+              var downTimeout2 = setTimeout(function()
+              {
+                clearInterval(downInterval2);
+                var downInterval3 = setInterval(function()
+                {
+                  vert += 3;
+                  block.css("marginTop", vert+"px");
+                }, 1);
+                var downTimeout3 = setTimeout(function()
+                {
+                  clearInterval(downInterval3);
+                  block.css("marginTop", lowest+"px");
+                  jump = true;
+                  // console.log(vert);
+                  vert = lowest;
+                  // console.log(jump);
+                }, 100);
+              }, 100);
+            }, 100);
+          }, 100);
+        }, 100);
+      }, 100);
     }
   }).keyup(function(e)
   {
@@ -91,17 +115,9 @@ $(document).ready(function()
     if (e.which == 37 || e.which == 38 || e.which == 39)
     {
       down[e.which] = false;
-      // for (var i = 0; i < intArray.length; i ++)
-      // {
-      //   clearInterval(intArray[i]);
-      // }
-      // intArray = [];
-      // down = true;
-      // if (int)
-
       if (!right && jump)
       {
-        console.log("clear right 1");
+        // console.log("clear right 1");
         if (intRight)
         {
           clearInterval(intRight);
@@ -110,17 +126,16 @@ $(document).ready(function()
       }
       else if (!right && !jump && !down[39])
       {
-        console.log("clear right 2");
+        // console.log("clear right 2");
         if (intRight)
         {
           clearInterval(intRight);
           right = true;
         }
       }
-
       if (!left && jump)
       {
-        console.log("clear left 1");
+        // console.log("clear left 1");
         if (intLeft)
         {
           clearInterval(intLeft);
@@ -129,18 +144,13 @@ $(document).ready(function()
       }
       else if (!left && !jump && !down[37])
       {
-        console.log("clear left 2");
+        // console.log("clear left 2");
         if (intLeft)
         {
           clearInterval(intLeft);
           left = true;
         }
       }
-
-      // else
-      // {
-      //   console.log("int NOT here");
-      // }
     }
   });
 });
