@@ -1,62 +1,69 @@
-var keysDown = [];
-var intArray = [];
+var down = [];
 $(document).ready(function()
 {
-  var down = true;
+  var right = true;
+  var left = true;
   var jump = true;
   var hor = 0;
-  var vert = window.innerHeight/10*7;
-  var int;
+  var lowest = window.innerHeight/10*7;
+  var vert = lowest;
+  var intRight;
+  var intLeft;
   var block = $("#block");
   block.css("marginTop", vert+"px");
   $(document).keydown(function(e)
   {
-    keysDown[e.which] = true;
+    if (vert > lowest)
+    {
+      console.log("too low!");
+      vert = lowest;
+    }
+    down[e.which] = true;
+
     // right
-    if (keysDown[39] && down)
+    if (down[39] && right)
     {
       console.log("right");
-      // console.log(down);
-      down = false;
-      int = setInterval(function()
+      right = false;
+      // if (intLeft)
+      // {
+      //   console.log("top clear left");
+      //   clearInterval(intLeft);
+      //   left = true;
+      // }
+      intRight = setInterval(function()
       {
         hor += 1;
         block.css("marginLeft", hor+"px");
       }, 1);
-      intArray.push(int);
     }
+
     // left
-    if (keysDown[37] && down)
+    if (down[37] && left)
     {
       console.log("left");
-      // console.log(down);
-      down = false;
-      int = setInterval(function()
+      left = false;
+      // if (intRight)
+      // {
+      //   console.log("top clear right");
+      //   clearInterval(intRight);
+      //   right = true;
+      // }
+      intLeft = setInterval(function()
       {
         hor -= 1;
         block.css("marginLeft", hor+"px");
       }, 1);
-      intArray.push(int);
     }
-    // // up
-    // if (keysDown[38] && down)
-    // {
-    //   down = false;
-    //   int = setInterval(function()
-    //   {
-    //     vert -= 1;
-    //     block.css("marginTop", vert+"px");
-    //   }, 1);
-    // }
 
     // jump
-    if (keysDown[38] && jump)
+    if (down[38] && jump)
     {
       console.log("jump");
       jump = false;
       var upInterval = setInterval(function()
       {
-        vert -= 2;
+        vert -= 3;
         block.css("marginTop", vert+"px");
       }, 1);
       var upTimeout = setTimeout(function()
@@ -64,7 +71,7 @@ $(document).ready(function()
         clearInterval(upInterval);
         var downInterval = setInterval(function()
         {
-          vert += 2;
+          vert += 3;
           block.css("marginTop", vert+"px");
         }, 1);
         var downTimeout = setTimeout(function()
@@ -75,40 +82,65 @@ $(document).ready(function()
         }, 300);
       }, 300);
     }
-
-
-    // jump right
-    // if (keysDown[39] && down && keysDown[38] && jump)
-    // {
-    //   console.log("right jump");
-    //   // down = false;
-    //   // int = setInterval(function()
-    //   // {
-    //     vert -= 1;
-    //     hor += 1;
-    //     $("#block").css("marginTop", vert+"px");
-    //     $("#block").css("marginLeft", hor+"px");
-    //   // }, 1);
-    // }
   }).keyup(function(e)
   {
-    // for (var i = 0; i < intArray.length; i ++)
-    // {
-    //   clearInterval(intArray[i]);
-    // }
-    // intArray = [];
-    // down = true;
-    // if (int)
-    if (int && jump)
+    if (e.which == 32)
     {
-      console.log("int here");
-      clearInterval(int);
-      down = true;
+      console.log("attack!");
     }
-    else
+    if (e.which == 37 || e.which == 38 || e.which == 39)
     {
-      console.log("int NOT here");
+      down[e.which] = false;
+      // for (var i = 0; i < intArray.length; i ++)
+      // {
+      //   clearInterval(intArray[i]);
+      // }
+      // intArray = [];
+      // down = true;
+      // if (int)
+
+      if (!right && jump)
+      {
+        console.log("clear right 1");
+        if (intRight)
+        {
+          clearInterval(intRight);
+          right = true;
+        }
+      }
+      else if (!right && !jump && !down[39])
+      {
+        console.log("clear right 2");
+        if (intRight)
+        {
+          clearInterval(intRight);
+          right = true;
+        }
+      }
+
+      if (!left && jump)
+      {
+        console.log("clear left 1");
+        if (intLeft)
+        {
+          clearInterval(intLeft);
+          left = true;
+        }
+      }
+      else if (!left && !jump && !down[37])
+      {
+        console.log("clear left 2");
+        if (intLeft)
+        {
+          clearInterval(intLeft);
+          left = true;
+        }
+      }
+
+      // else
+      // {
+      //   console.log("int NOT here");
+      // }
     }
-    keysDown[e.which] = false;
   });
 });
